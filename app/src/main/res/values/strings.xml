@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">XposedSample</string>
+    <string name="xposed_descrption">Zack Xposed 模块</string>
 </resources>
