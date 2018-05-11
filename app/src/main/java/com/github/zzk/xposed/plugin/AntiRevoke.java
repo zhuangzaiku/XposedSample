@@ -3,6 +3,7 @@ package com.github.zzk.xposed.plugin;
 import android.content.ContentValues;
 
 import com.github.zzk.xposed.HookParams;
+import com.github.zzk.xposed.utils.PreferencesUtils;
 
 import java.io.File;
 import java.util.Arrays;
@@ -51,9 +52,9 @@ public class AntiRevoke implements IPlugin {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
                 try {
-//                    if (!PreferencesUtils.isAntiRevoke()) {
-//                        return;
-//                    }
+                    if (!PreferencesUtils.isAntiRevoke()) {
+                        return;
+                    }
 
                     String[] media = {"ImgInfo2", "voiceinfo", "videoinfo2", "WxFileIndex2"};
                     if (Arrays.asList(media).contains(param.args[0])) {
@@ -70,9 +71,9 @@ public class AntiRevoke implements IPlugin {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
                 try {
-//                    if (!PreferencesUtils.isAntiRevoke()) {
-//                        return;
-//                    }
+                    if (!PreferencesUtils.isAntiRevoke()) {
+                        return;
+                    }
                     String path = ((File) param.thisObject).getAbsolutePath();
                     if ((path.contains("/image2/") || path.contains("/voice2/") || path.contains("/video/")))
                         param.setResult(true);
@@ -87,9 +88,9 @@ public class AntiRevoke implements IPlugin {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
                 try {
-//                    if (!PreferencesUtils.isAntiRevoke()) {
-//                        return;
-//                    }
+                    if (!PreferencesUtils.isAntiRevoke()) {
+                        return;
+                    }
 
                     storageInsertClazz = param.thisObject;
                     Object msg = param.args[0];

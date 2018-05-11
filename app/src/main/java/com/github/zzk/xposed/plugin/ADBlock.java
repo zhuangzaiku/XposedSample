@@ -1,6 +1,7 @@
 package com.github.zzk.xposed.plugin;
 
 import com.github.zzk.xposed.HookParams;
+import com.github.zzk.xposed.utils.PreferencesUtils;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
@@ -19,8 +20,8 @@ public class ADBlock implements IPlugin {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         try {
-//                            if (!PreferencesUtils.isADBlock())
-//                                return;
+                            if (!PreferencesUtils.isADBlock())
+                                return;
 
                             if (param.args[1].equals("ADInfo"))
                                 param.setResult(null);

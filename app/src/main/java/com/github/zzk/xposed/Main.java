@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import com.github.zzk.xposed.plugin.ADBlock;
 import com.github.zzk.xposed.plugin.AntiRevoke;
 import com.github.zzk.xposed.plugin.IPlugin;
+import com.github.zzk.xposed.plugin.LuckMoney;
 import com.github.zzk.xposed.utils.SearchClasses;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -25,8 +26,9 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class Main implements IXposedHookLoadPackage {
 
     private static IPlugin[] plugins = {
-            new AntiRevoke()
-            , new ADBlock()
+            new AntiRevoke(),
+            new ADBlock(),
+            new LuckMoney()
     };
 
     @Override
