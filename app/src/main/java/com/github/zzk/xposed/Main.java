@@ -5,6 +5,7 @@ import android.content.ContextWrapper;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import com.github.zzk.xposed.plugin.ADBlock;
 import com.github.zzk.xposed.plugin.AntiRevoke;
 import com.github.zzk.xposed.plugin.IPlugin;
 import com.github.zzk.xposed.utils.SearchClasses;
@@ -24,12 +25,13 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class Main implements IXposedHookLoadPackage {
 
     private static IPlugin[] plugins = {
-        new AntiRevoke()
+            new AntiRevoke()
+            , new ADBlock()
     };
 
     @Override
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        if(lpparam.packageName.equals(HookParams.WECHAT_PACKAGE_NAME)) {
+        if (lpparam.packageName.equals(HookParams.WECHAT_PACKAGE_NAME)) {
             try {
                 XposedHelpers.findAndHookMethod(ContextWrapper.class, "attachBaseContext", Context.class, new XC_MethodHook() {
                     @Override
@@ -37,13 +39,13 @@ public class Main implements IXposedHookLoadPackage {
                         super.afterHookedMethod(param);
                         Context context = (Context) param.args[0];
                         String processName = lpparam.processName;
-                        if(!processName.equals(HookParams.WECHAT_PACKAGE_NAME) &&
+                        if (!processName.equals(HookParams.WECHAT_PACKAGE_NAME) &&
                                 !processName.equals(HookParams.WECHAT_PACKAGE_NAME + ":tools")) {
                             return;
                         }
                         String versionName = getVersionName(context, HookParams.WECHAT_PACKAGE_NAME);
                         XposedBridge.log("found wechat version" + versionName);
-                        if(!HookParams.hasInstance()) {
+                        if (!HookParams.hasInstance()) {
                             SearchClasses.init(context, lpparam, versionName);
                             loadPlugin(lpparam);
                         }
@@ -67,7 +69,7 @@ public class Main implements IXposedHookLoadPackage {
     }
 
     private void loadPlugin(XC_LoadPackage.LoadPackageParam lpparam) {
-        for(IPlugin plugin : plugins) {
+        for (IPlugin plugin : plugins) {
             try {
                 plugin.hook(lpparam);
             } catch (Error | Exception e) {
