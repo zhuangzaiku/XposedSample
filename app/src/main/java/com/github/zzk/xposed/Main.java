@@ -4,13 +4,10 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.hardware.Sensor;
-import android.util.SparseArray;
 
+import com.github.zzk.xposed.plugin.AntiRevoke;
 import com.github.zzk.xposed.plugin.IPlugin;
 import com.github.zzk.xposed.utils.SearchClasses;
-
-import java.lang.reflect.Field;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
@@ -27,15 +24,11 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class Main implements IXposedHookLoadPackage {
 
     private static IPlugin[] plugins = {
-
+        new AntiRevoke()
     };
-
-    static {
-    }
 
     @Override
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        XposedBridge.log("handleLoadPackage");
         if(lpparam.packageName.equals(HookParams.WECHAT_PACKAGE_NAME)) {
             try {
                 XposedHelpers.findAndHookMethod(ContextWrapper.class, "attachBaseContext", Context.class, new XC_MethodHook() {

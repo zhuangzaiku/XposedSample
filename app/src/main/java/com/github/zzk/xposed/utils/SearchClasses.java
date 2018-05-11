@@ -47,7 +47,7 @@ public class SearchClasses {
             hp.LuckyMoneyReceiveUIClassName = "com.tencent.mm.plugin.luckymoney.ui.En_fba4b94f";
         if (versionNum < getVersionNum("6.5.8"))
             hp.SQLiteDatabaseClassName = "com.tencent.mmdb.database.SQLiteDatabase";
-        else if(versionNum >= getVersionNum("6.6.5"))
+        else if(versionNum == getVersionNum("6.6.5"))
             hp.SQLiteDatabaseClassName = "com.tencent.wcdb.database.SQLiteDatabase";
         if (versionNum < getVersionNum("6.5.4"))
             hp.hasTimingIdentifier = false;
